@@ -8,7 +8,7 @@
       <name>OpenAI</name>
     </author>
     <category citation-format="author-date"/>
-    <summary>Estilo personalizado tipo ISO 690 para bibliografía en español, con autor en negrita.</summary>
+    <summary>Estilo personalizado compatible con Mendeley Cite para bibliografía tipo ISO 690 en español.</summary>
     <updated>2026-04-03T00:00:00+00:00</updated>
     <rights license="http://creativecommons.org/licenses/by-sa/3.0/"/>
   </info>
@@ -25,7 +25,7 @@
 
   <macro name="author">
     <names variable="author">
-      <name delimiter="; " name-as-sort-order="all" sort-separator=", " font-weight="bold">
+      <name delimiter="; " name-as-sort-order="all" sort-separator=", " initialize-with=". ">
         <name-part name="family" text-case="uppercase"/>
       </name>
       <substitute>
@@ -50,8 +50,24 @@
     </group>
   </macro>
 
+  <macro name="container-generic">
+    <group>
+      <text term="in" text-case="capitalize-first" suffix=" "/>
+      <text variable="container-title" font-style="italic"/>
+      <text value="."/>
+    </group>
+  </macro>
+
   <macro name="year">
     <date variable="issued">
+      <date-part name="year"/>
+    </date>
+  </macro>
+
+  <macro name="book-date">
+    <date variable="issued">
+      <date-part name="day" suffix=" de "/>
+      <date-part name="month" form="long" suffix=" de "/>
       <date-part name="year"/>
     </date>
   </macro>
@@ -147,14 +163,6 @@
     </group>
   </macro>
 
-  <macro name="book-date">
-    <date variable="issued">
-      <date-part name="day" suffix=" de "/>
-      <date-part name="month" form="long" suffix=" de "/>
-      <date-part name="year"/>
-    </date>
-  </macro>
-
   <citation et-al-min="3" et-al-use-first="1" disambiguate-add-names="true">
     <layout prefix="(" suffix=")" delimiter="; ">
       <group delimiter=", ">
@@ -176,7 +184,7 @@
       <key macro="author"/>
       <key variable="title"/>
     </sort>
-    <layout>
+    <layout suffix=".">
       <choose>
 
         <if type="article-journal article-magazine article-newspaper" match="any">
@@ -189,9 +197,9 @@
               <text macro="volume-issue"/>
               <text macro="pages"/>
             </group>
-            <text macro="issn" prefix=" "/>
-            <text macro="doi" prefix=" "/>
-            <text macro="url" prefix=" "/>
+            <text macro="issn"/>
+            <text macro="doi"/>
+            <text macro="url"/>
           </group>
         </if>
 
@@ -221,17 +229,13 @@
           <group delimiter=" ">
             <text macro="author"/>
             <text macro="title"/>
-            <group>
-              <text term="in" text-case="capitalize-first" suffix=" "/>
-              <text variable="container-title" font-style="italic"/>
-              <text value="."/>
-            </group>
+            <text macro="container-generic"/>
             <group delimiter=", ">
               <text macro="year"/>
               <text macro="pages"/>
             </group>
-            <text macro="doi" prefix=" "/>
-            <text macro="url" prefix=" "/>
+            <text macro="doi"/>
+            <text macro="url"/>
           </group>
         </else-if>
 
@@ -250,7 +254,7 @@
           <group delimiter=" ">
             <text macro="author"/>
             <text macro="title"/>
-            <text macro="year" suffix="."/>
+            <text macro="year"/>
             <text macro="url"/>
           </group>
         </else>
