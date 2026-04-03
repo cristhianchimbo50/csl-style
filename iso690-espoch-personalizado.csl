@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<style xmlns="http://purl.org/net/xbiblio/csl" version="1.0" class="in-text" default-locale="es-ES">
+<style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" default-locale="es-ES">
   <info>
-    <title>ISO 690 ESPOCH Personalizado</title>
-    <id>http://www.zotero.org/styles/iso-690-espoch-personalizado</id>
-    <link href="http://www.zotero.org/styles/iso-690-espoch-personalizado" rel="self"/>
+    <title>ISO 690 ESPOCH Simple</title>
+    <id>http://www.zotero.org/styles/iso-690-espoch-simple</id>
+    <link href="http://www.zotero.org/styles/iso-690-espoch-simple" rel="self"/>
     <author>
       <name>OpenAI</name>
     </author>
     <category citation-format="author-date"/>
-    <summary>Estilo personalizado compatible con Mendeley Cite para bibliografía tipo ISO 690 en español.</summary>
     <updated>2026-04-03T00:00:00+00:00</updated>
     <rights license="http://creativecommons.org/licenses/by-sa/3.0/"/>
   </info>
 
   <locale xml:lang="es-ES">
     <terms>
-      <term name="editor" form="short">ed.</term>
-      <term name="editors" form="short">eds.</term>
       <term name="in">En</term>
       <term name="online">en línea</term>
       <term name="page-range-delimiter">-</term>
@@ -25,7 +22,7 @@
 
   <macro name="author">
     <names variable="author">
-      <name delimiter="; " name-as-sort-order="all" sort-separator=", " initialize-with=". ">
+      <name name-as-sort-order="all" sort-separator=", " delimiter="; " initialize-with=". ">
         <name-part name="family" text-case="uppercase"/>
       </name>
       <substitute>
@@ -36,40 +33,22 @@
     </names>
   </macro>
 
+  <macro name="issued-year">
+    <date variable="issued">
+      <date-part name="year"/>
+    </date>
+  </macro>
+
   <macro name="title">
     <text variable="title" suffix="."/>
   </macro>
 
-  <macro name="container-journal">
+  <macro name="journal">
     <group>
-      <text term="in" text-case="capitalize-first" suffix=" "/>
+      <text term="in" suffix=" "/>
       <text variable="container-title" font-style="italic"/>
-      <text value=" [" suffix=""/>
-      <text term="online"/>
-      <text value="]."/>
+      <text value=" [en línea]."/>
     </group>
-  </macro>
-
-  <macro name="container-generic">
-    <group>
-      <text term="in" text-case="capitalize-first" suffix=" "/>
-      <text variable="container-title" font-style="italic"/>
-      <text value="."/>
-    </group>
-  </macro>
-
-  <macro name="year">
-    <date variable="issued">
-      <date-part name="year"/>
-    </date>
-  </macro>
-
-  <macro name="book-date">
-    <date variable="issued">
-      <date-part name="day" suffix=" de "/>
-      <date-part name="month" form="long" suffix=" de "/>
-      <date-part name="year"/>
-    </date>
   </macro>
 
   <macro name="volume-issue">
@@ -91,17 +70,6 @@
         <group>
           <text value="pp. "/>
           <text variable="page"/>
-        </group>
-      </if>
-    </choose>
-  </macro>
-
-  <macro name="isbn">
-    <choose>
-      <if variable="ISBN">
-        <group>
-          <text value="ISBN "/>
-          <text variable="ISBN"/>
         </group>
       </if>
     </choose>
@@ -140,6 +108,32 @@
     </choose>
   </macro>
 
+  <macro name="publisher-place">
+    <group delimiter=": ">
+      <text variable="publisher-place"/>
+      <text variable="publisher"/>
+    </group>
+  </macro>
+
+  <macro name="book-date">
+    <date variable="issued">
+      <date-part name="day" suffix=" de "/>
+      <date-part name="month" form="long" suffix=" de "/>
+      <date-part name="year"/>
+    </date>
+  </macro>
+
+  <macro name="isbn">
+    <choose>
+      <if variable="ISBN">
+        <group>
+          <text value="ISBN "/>
+          <text variable="ISBN"/>
+        </group>
+      </if>
+    </choose>
+  </macro>
+
   <macro name="access">
     <choose>
       <if variable="accessed">
@@ -156,14 +150,7 @@
     </choose>
   </macro>
 
-  <macro name="publisher-place">
-    <group delimiter=": ">
-      <text variable="publisher-place"/>
-      <text variable="publisher"/>
-    </group>
-  </macro>
-
-  <citation et-al-min="3" et-al-use-first="1" disambiguate-add-names="true">
+  <citation et-al-min="3" et-al-use-first="1">
     <layout prefix="(" suffix=")" delimiter="; ">
       <group delimiter=", ">
         <names variable="author">
@@ -191,9 +178,9 @@
           <group delimiter=" ">
             <text macro="author"/>
             <text macro="title"/>
-            <text macro="container-journal"/>
+            <text macro="journal"/>
             <group delimiter=", ">
-              <text macro="year"/>
+              <text macro="issued-year"/>
               <text macro="volume-issue"/>
               <text macro="pages"/>
             </group>
@@ -219,22 +206,8 @@
             <text macro="title"/>
             <text value="[en línea]."/>
             <text variable="publisher-place" suffix=","/>
-            <text macro="year" suffix="."/>
+            <text macro="issued-year"/>
             <text macro="access"/>
-            <text macro="url"/>
-          </group>
-        </else-if>
-
-        <else-if type="paper-conference chapter" match="any">
-          <group delimiter=" ">
-            <text macro="author"/>
-            <text macro="title"/>
-            <text macro="container-generic"/>
-            <group delimiter=", ">
-              <text macro="year"/>
-              <text macro="pages"/>
-            </group>
-            <text macro="doi"/>
             <text macro="url"/>
           </group>
         </else-if>
@@ -244,7 +217,7 @@
             <text macro="author"/>
             <text macro="title"/>
             <text value="[en línea]."/>
-            <text macro="year" suffix="."/>
+            <text macro="issued-year"/>
             <text macro="access"/>
             <text macro="url"/>
           </group>
@@ -254,7 +227,7 @@
           <group delimiter=" ">
             <text macro="author"/>
             <text macro="title"/>
-            <text macro="year"/>
+            <text macro="issued-year"/>
             <text macro="url"/>
           </group>
         </else>
